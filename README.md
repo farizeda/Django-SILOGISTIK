@@ -1,5 +1,7 @@
 # SILOGISTIK - Logistics Information System
 
+![Dashboard](https://cdn.discordapp.com/attachments/1176441469725327430/1225475472029126686/Screenshot_2024-04-04_at_23.01.53.png?ex=662143f8&is=660ecef8&hm=f6753e0c4b5634a6836307ccd7a3908886e9933c1fcfd9c64c065a92ad475aba&)
+
 ## Introduction
 
 SILOGISTIK is a Spring Boot application designed to streamline logistics operations for APAP Express (fictional). The application serves as a central platform to integrate shipment request information, manage inventory, and handle customer service inquiries efficiently. It's built with an emphasis on user experience and inter-departmental coordination to solve logistical challenges.
