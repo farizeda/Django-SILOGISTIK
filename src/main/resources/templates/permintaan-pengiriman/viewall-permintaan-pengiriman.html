@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Daftar Permintaan Pengiriman</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar(condition='permintaan-pengiriman')}"></nav>
+    <div class="container">
+        <div class="text-center pt-5">
+            <h2>Daftar Permintaan Pengiriman</h2>
+            <div class="text-center m-3">
+                <a type="button" class="btn btn-primary m-2" href="/permintaan-pengiriman/tambah">+ Tambah Permintaan Pengiriman</a>
+            </div>
+        </div>
+        <table id="permintaanPengirimanTable" class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Waktu Permintaan</th>
+                    <th>Nomor Pengiriman</th>
+                    <th>Nama Penerima</th>
+                    <th>Alamat Penerima</th>
+                    <th>Tanggal Pengiriman</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="permintaan, iterationStatus : ${listPermintaanPengiriman}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td th:text="${permintaanPengirimanService.convertWaktuPermintaan(permintaan)}"></td>
+                    <td th:text="${permintaan.noPengiriman}"></td>
+                    <td th:text="${permintaan.namaPenerima}"></td>
+                    <td th:text="${permintaan.alamatPenerima}"></td>
+                    <td th:text="${permintaan.tanggalPengiriman}"></td>
+                    <td>
+                        <a type="button" class="btn btn-md btn-primary" th:href="@{/permintaan-pengiriman/{id}(id=${permintaan.idPermintaanPengiriman})}">Detail</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#permintaanPengirimanTable').DataTable({
+                pageLength: 5,
+                lengthMenu: [ [5, 10, 20, -1], [5, 10, 20, "All"] ],
+                columnDefs: [
+                    { targets: 6, orderable: false },
+                ],
+            });
+        });
+    </script>
+</body>
+
+</html>

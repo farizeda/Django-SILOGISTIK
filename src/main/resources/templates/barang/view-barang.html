@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Detail Barang</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar(condition='barang')}"></nav>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Detail Barang</h2>
+        
+        <!-- Detail Barang Section -->
+        <div class="mb-3">
+            <strong>Merk</strong> : <span th:text="${barangDTO.merkBarang}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>SKU</strong> : <span th:text="${barangDTO.sku}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Tipe Barang</strong> : <span th:text="${barangDTO.tipeBarang}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Total Stok</strong> : <span th:text="${barangDTO.totalStok}"></span>
+        </div>
+        <div class="mb-4">
+            <strong>Harga</strong> : <span th:text="${barangDTO.hargaBarang}"></span>
+        </div>
+
+        <!-- Daftar Gudang Section -->
+        <h4 class="mb-3">Daftar gudang</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama Gudang</th>
+                    <th>Alamat Gudang</th>
+                    <th>Stok</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="gudangBarang, iterationStatus : ${barangDTO.gudangBarangs}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td th:text="${gudangBarang.gudang.namaGudang}"></td>
+                    <td th:text="${gudangBarang.gudang.alamatGudang}"></td>
+                    <!-- Assuming gudang has stok attribute for barang -->
+                    <td th:text="${gudangBarang.stok}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Return Button -->
+        <div class="d-flex justify-content-between mt-4">
+            <a href="/barang" class="btn btn-secondary">Kembali</a>
+            <a type="button" class="btn btn-md btn-primary" th:href="@{/barang/ubah/{sku}(sku=${barangDTO.sku})}">Ubah</a>
+        </div>
+    </div>
+    <!-- Include datatable if necessary -->
+    <script>
+        $(document).ready(function() {
+            $('.table').DataTable({
+                pageLength: 5,
+                lengthMenu: [ [5, 10, 20, -1], [5, 10, 20, "All"] ],
+            });
+        });
+    </script>
+</body>
+
+</html>

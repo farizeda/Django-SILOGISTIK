@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Daftar gudang</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar(condition='gudang')}"></nav>
+    <div class="container">
+        <div class="text-center pt-5">
+            <h2>Daftar Gudang</h2>
+            <!-- <div class="text-center m-3">
+                <a type="button" class="btn btn-primary m-2" href="/gudang/tambah">Tambah Barang</a>
+                <a type="button" class="btn btn-md btn-primary" href="/">Home</a>
+            </div> -->
+        </div>
+        <table id="gudangTable" class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama</th>
+                    <th>Alamat Gudang</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="gudang, iterationStatus : ${listGudang}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td th:text="${gudang.namaGudang}"></td>
+                    <td th:text="${gudang.alamatGudang}"></td>
+                    <td>
+                        <a type="button" class="btn btn-md btn-primary" th:href="@{/gudang/{idGudang}(idGudang=${gudang.idGudang})}">Detail</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#gudangTable').DataTable({
+                pageLength: 5,
+                lengthMenu: [ [5, 10, 20, -1], [5, 10, 20, "All"] ],
+                columnDefs: [
+                    { targets: 3, orderable: false },
+                ],
+            });
+        });
+    </script>
+</body>
+
+</html>

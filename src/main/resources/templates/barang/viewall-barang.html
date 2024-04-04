@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Daftar Barang</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar(condition='barang')}"></nav>
+    <div class="container">
+        <div class="text-center pt-5">
+            <h2>Daftar Barang</h2>
+            <div class="text-center m-3">
+                <a type="button" class="btn btn-primary m-2" href="/barang/tambah">Tambah Barang</a>
+                <a type="button" class="btn btn-md btn-primary" href="/">Home</a>
+            </div>
+        </div>
+        <table id="barangTable" class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>SKU</th>
+                    <th>Merk</th>
+                    <th>Stok</th>
+                    <th>Harga</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="barang, iterationStatus : ${listBarangDisplay}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td th:text="${barang.sku}"></td>
+                    <td th:text="${barang.merkBarang}"></td>
+                    <!-- Assuming you have a method to get the stock for each barang -->
+                    <td th:text="${barang.totalStok}"></td>
+                    <td th:text="${barang.hargaBarang}"></td>
+                    <td>
+                        <a type="button" class="btn btn-md btn-primary" th:href="@{/barang/{sku}(sku=${barang.sku})}">Detail</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#barangTable').DataTable({
+                pageLength: 5,
+                lengthMenu: [ [5, 10, 20, -1], [5, 10, 20, "All"] ],
+                columnDefs: [
+                    { targets: 5, orderable: false },
+                ],
+            });
+        });
+    </script>
+</body>
+
+</html>

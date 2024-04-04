@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Detail Permintaan Pengiriman</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar(condition='barang')}"></nav>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Detail Permintaan Pengiriman</h2>
+        
+        <div class="mb-3">
+            <span th:if="${permintaanPengirimanDTO.isCancelled}" class="badge-dibatalkan">Dibatalkan</span>
+        </div>
+    
+        <!-- Detail Barang Section -->
+        <div class="mb-3">
+            <strong>No. Permintaan Pengiriman:</strong>  <span th:text="${permintaanPengirimanDTO.noPengiriman}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Waktu Permintaan:</strong>  <span th:text="${permintaanPengirimanService.convertWaktuPermintaan(permintaanPengiriman)}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Karyawan Bertugas:</strong>  <span th:text="${permintaanPengirimanDTO.karyawan.namaKaryawan}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Waktu Pengiriman:</strong>  <span th:text="${permintaanPengirimanDTO.tanggalPengiriman}"></span>
+        </div>
+        <div class="mb-4">
+            <strong>Nama Penerima:</strong>  <span th:text="${permintaanPengirimanDTO.namaPenerima}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Alamat Penerima:</strong>  <span th:text="${permintaanPengirimanDTO.alamatPenerima}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Jenis Layanan:</strong> 
+            <span th:text="${permintaanPengirimanDTO.jenisLayanan == 1 ? 'Same Day' : 
+                           permintaanPengirimanDTO.jenisLayanan == 2 ? 'Kilat' : 
+                           permintaanPengirimanDTO.jenisLayanan == 3 ? 'Reguler' : 
+                           permintaanPengirimanDTO.jenisLayanan == 4 ? 'Hemat' : 
+                           'Unknown'}"></span>
+        </div>
+        
+        <div class="mb-3">
+            <strong>Biaya Pengiriman:</strong> <span th:text="'Rp' + ${permintaanPengirimanDTO.biayaPengiriman}"></span>
+        </div>
+
+        <!-- Daftar Gudang Section -->
+        <h4 class="mb-3">Daftar barang yang dipesan</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>SKU</th>
+                    <th>Merk</th>
+                    <th>Kuantitas</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="permintaanPengirimanBarang, iterationStatus : ${permintaanPengirimanDTO.permintaanPengirimanBarangs}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td><a th:href="@{/barang/{sku}(sku=${permintaanPengirimanBarang.barang.sku})}" th:text="${permintaanPengirimanBarang.barang.sku}"></a></td>
+                    <td th:text="${permintaanPengirimanBarang.barang.merkBarang}"></td>
+                    <!-- Assuming gudang has stok attribute for barang -->
+                    <td th:text="${permintaanPengirimanBarang.kuantitasPesanan}"></td>
+                    <td th:text="'Rp' + ${permintaanPengirimanBarang.barang.hargaBarang}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Return Button -->
+        <div class="d-flex justify-content-between mt-4">
+            <a href="/permintaan-pengiriman" class="btn btn-secondary">Kembali</a>
+            <a th:if="${durationDisplay <= 24 && permintaanPengirimanDTO.isCancelled == false}" type="button" class="btn btn-md btn-danger" 
+               th:href="@{/permintaan-pengiriman/{idPermintaanPengiriman}/cancel(idPermintaanPengiriman=${permintaanPengirimanDTO.idPermintaanPengiriman})}">
+               Batalkan Permintaan
+            </a>
+        </div>
+    </div>
+      
+   
+    <!-- Include datatable if necessary -->
+    <script>
+        $(document).ready(function() {
+            $('.table').DataTable({
+                pageLength: 5,
+                lengthMenu: [ [5, 10, 20, -1], [5, 10, 20, "All"] ],
+            });
+        });
+    </script>
+    <style>
+    .badge-dibatalkan {
+        background-color: rgb(189, 43, 43);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+    }
+</style>
+
+</body>
+
+</html>

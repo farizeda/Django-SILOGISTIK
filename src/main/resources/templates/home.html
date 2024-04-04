@@ -1,0 +1,71 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Home</title>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar(condition='beranda')}"></nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <img th:src="@{/images/logistics.png}" alt="SILOGISTIK Logo" class="mb-4" style="width: 200px;">
+            <h2>SILOGISTIK</h2>
+        </div>
+    </div>
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-3">
+        <a href="/gudang" class="text-decoration-none">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Gudang</h5>
+                    <h3 class="card-title" th:text="${jumlahGudang != null ? jumlahGudang : 0}">10</h3>
+                    <p class="card-text">gudang</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="/barang" class="text-decoration-none">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Barang</h5>
+                    <h3 class="card-title" th:text="${jumlahBarang != null ? jumlahBarang : 0}">10</h3>
+                    <p class="card-text">barang</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="/permintaan-pengiriman" class="text-decoration-none">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Permintaan pengiriman</h5>
+                    <h3 class="card-title" th:text="${jumlahPermintaanPengiriman != null ? jumlahPermintaanPengiriman : 0}">10</h3>
+                    <p class="card-text">permintaan pengiriman</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="/" class="text-decoration-none">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Karyawan</h5>
+                    <h3 class="card-title" th:text="${jumlahKaryawan != null ? jumlahKaryawan : 0}">10</h3>
+                    <p class="card-text">karyawan</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+</body>

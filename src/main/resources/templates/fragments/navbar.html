@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SILOGISTIK Landing Page</title>
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand fw-bold text-primary ms-3" href="/">SILOGISTIK</a>
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarGudang" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gudang</a>
+                <div class="dropdown-menu" aria-labelledby="navbarGudang">
+                    <a class="dropdown-item" th:href="@{/gudang}">Daftar Gudang</a>
+                    <a class="dropdown-item" th:href="@{/gudang/cari-barang}">Cari Barang</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:classappend="${condition == 'barang' ? 'active' : ''}" th:href="@{/barang}">Barang</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:classappend="${condition == 'permintaan-pengiriman' ? 'active' : ''}" th:href="@{/permintaan-pengiriman}">Permintaan Pengiriman</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:classappend="${condition == 'bonus' ? 'active' : ''}" th:href="@{/filter-permintaan-pengiriman}">Bonus</a>
+            </li>
+            
+        </ul>
+    </div>
+</nav>
+
+<!-- Landing page content goes here -->
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<!-- Bootstrap JS library -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

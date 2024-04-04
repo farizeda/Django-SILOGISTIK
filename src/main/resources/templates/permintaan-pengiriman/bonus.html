@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Filter Permintaan Pengiriman</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar(condition='bonus')}"></nav>
+    <div class="container">
+        <div class="text-center pt-5">
+            <h2>Filter Permintaan Pengiriman</h2>
+
+            <form th:action="@{/filter-permintaan-pengiriman}" method="get" class="mt-4">
+                <div class="row text-center">
+                    <div class="col-md-6 offset-md-3">
+                        <select class="form-control" name="sku" id="sku">
+                            <option th:each="barang: ${allBarang}" th:value="${barang.sku}" th:text="${barang.merkBarang}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3 text-center">
+                    <div class="col-md-6 offset-md-3">
+                        Dari: <input type="date" name="start-date" id="start-date" pattern="\d{4}-\d{2}-\d{2}">
+                        Hingga: <input type="date" name="end-date" id="end-date" pattern="\d{4}-\d{2}-\d{2}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Cari</button>
+            </form>
+        </div>
+
+        <div th:if="${listPengiriman != null && listPengiriman.size() > 0}">
+            <table id="pengirimanTable" class="table mt-4">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Waktu Permintaan</th>
+                        <th>Nomor Pengiriman</th>
+                        <th>Nama Penerima</th>
+                        <th>Alamat Penerima</th>
+                        <th>Tanggal Pengiriman</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="pengiriman, iterationStatus : ${listPengiriman}">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td th:text="${permintaanPengirimanService.convertWaktuPermintaan(pengiriman)}"></td>
+                        <td>
+                            <a th:href="@{/permintaan-pengiriman/{id}(id=${pengiriman.idPermintaanPengiriman})}" 
+                            th:text="${pengiriman.noPengiriman}"></a>
+                        </td>
+                        <td th:text="${pengiriman.namaPenerima}"></td>
+                        <td th:text="${pengiriman.alamatPenerima}"></td>
+                        <td th:text="${pengiriman.tanggalPengiriman}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div th:if="${listPengiriman == null || listPengiriman.size() == 0}" class="not-found">
+            Permintaan Pengiriman tidak ditemukan
+        </div>
+        
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#pengirimanTable').DataTable({
+                searching: false,
+                paging: false,
+                columnDefs: [
+                    { targets: 3, pengirimanable: false },
+                ],
+            });
+        });
+    </script>
+
+<style>
+    .not-found {
+        bpengiriman: 1px solid #ccc; 
+        bpengiriman-radius: 15px; 
+        padding: 20px; 
+        text-align: center; 
+        background-color: #f8f8f8; 
+        margin-top: 20px;
+        max-width: 500px; 
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+</body>
+
+</html>

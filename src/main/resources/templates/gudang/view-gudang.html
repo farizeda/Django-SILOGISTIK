@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Detail Gudang</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar(condition='gudang')}"></nav>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Detail Gudang</h2>
+        
+        <div class="mb-3">
+            <strong>Nama Gudang:</strong> : <span th:text="${gudangDTO.namaGudang}">Gudang utama</span>
+        </div>
+        <div class="mb-4">
+            <strong>Alamat Gudang:</strong> : <span th:text="${gudangDTO.alamatGudang}">Jl.Kemerdekaan No.17A</span>
+        </div>
+
+        <div class="d-flex justify-content-end mb-3">
+            <a type="button" class="btn btn-md btn-primary" th:href="@{/gudang/{idGudang}/restock-barang(idGudang=${gudangDTO.idGudang})}">Restock Barang</a>
+        </div>
+        
+
+        <h4 class="mb-3">Daftar barang tersedia</h4>
+        <table id="gudangTable" class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>SKU</th>
+                    <th>Merk</th>
+                    <th>Stok</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="gudangBarang, iterationStatus : ${gudangDTO.gudangBarangs}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td><a th:href="@{/barang/{sku}(sku=${gudangBarang.barang.sku})}" th:text="${gudangBarang.barang.sku}"></a></td>
+                    <td th:text="${gudangBarang.barang.merkBarang}"></td>
+                    <td th:text="${gudangBarang.stok}"></td>
+                    <td th:text="${gudangBarang.barang.hargaBarang}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-4">
+            <a href="/gudang" class="btn btn-secondary">Kembali</a>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#gudangTable').DataTable({
+                pageLength: 5,
+                lengthMenu: [ [5, 10, 20, -1], [5, 10, 20, "All"] ],
+                columnDefs: [
+                    { targets: 4, orderable: false },
+                ],
+            });
+        });
+    </script>
+</body>
+
+</html>

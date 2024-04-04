@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Cari Barang</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar(condition='barang')}"></nav>
+    <div class="container">
+        <div class="text-center pt-5">
+            <h2>Cari Barang</h2>
+        </div>
+
+        <form th:action="@{/gudang/cari-barang}" method="get" class="text-center m-3">
+            <select name="sku" required>
+                <option value="" disabled selected>Select Barang</option>
+                <option th:each="barang : ${allBarang}" th:value="${barang.sku}" th:text="${barang.merkBarang}"></option>
+            </select>
+            <button type="submit" class="btn btn-primary">Cari</button>
+        </form>
+
+        <div th:if="${not #lists.isEmpty(listGudangBarang)}">
+            <table id="barangTable" class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Alamat Gudang</th>
+                        <th>Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="gudangBarang, iterationStatus : ${listGudangBarang}">
+                        <td th:text="${iterationStatus.count}"></td> 
+                        <td><a th:href="@{/gudang/{idGudang}(idGudang=${gudangBarang.gudang.idGudang})}" th:text="${gudangBarang.gudang.namaGudang}"></a></td>
+                        <td th:text="${gudangBarang.gudang.alamatGudang}"></td>
+                        <td th:text="${gudangBarang.stok}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div th:unless="${not #lists.isEmpty(listGudangBarang)}" class="not-found">
+            Barang tidak ditemukan
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#barangTable').DataTable({
+                pageLength: 5,
+                lengthMenu: [ [5, 10, 20, -1], [5, 10, 20, "All"] ]
+            });
+        });
+    </script>
+    <style>
+        .not-found {
+            border: 1px solid #ccc; 
+            border-radius: 15px; 
+            padding: 20px; 
+            text-align: center; 
+            background-color: #f8f8f8; 
+            margin-top: 20px;
+            max-width: 500px; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</body>
+
+</html>

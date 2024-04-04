@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Ubah Barang</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar(condition='barang')}"></nav>
+    <div class="container mt-5">
+        <div class="card p-4">
+            <div class="card-body">
+                <h2 class="text-center mb-4">Ubah Barang</h2>
+                <form th:action="@{/barang/ubah/} + ${barangDTO.sku}" th:object="${barangDTO}" method="POST">
+                    <div class="form-group">
+                        <label for="sku">SKU:</label>
+                        <input type="text" id="sku" class="form-control" th:field="*{sku}" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="merkBarang">Merk Barang:</label>
+                        <input required type="text" id="merkBarang" class="form-control" th:field="*{merkBarang}" />
+                    </div>
+
+                    <label for="tipeBarang">Tipe Barang:</label>
+                    <select class="form-control" name="tipeBarang" th:field="*{tipeBarang}" readonly>
+                        <option value="1" th:selected="${tipeBarang == 1}">Produk Elektronik</option>
+                        <option value="2" th:selected="${tipeBarang == 2}">Pakaian & Aksesoris</option>
+                        <option value="3" th:selected="${tipeBarang == 3}">Makanan & Minuman</option>
+                        <option value="4" th:selected="${tipeBarang == 4}">Kosmetik</option>
+                        <option value="5" th:selected="${tipeBarang == 5}">Perlengkapan Rumah</option>
+                    </select>
+
+                    <div class="form-group">
+                        <label for="harga">Harga:</label>
+                        <input required type="number" id="harga" class="form-control" th:field="*{hargaBarang}" />
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a th:href="@{/barang/{sku}(sku=${barangDTO.sku})}" class="btn btn-secondary">Batal</a>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Script can be added here if needed -->
+</body>
+
+</html>
